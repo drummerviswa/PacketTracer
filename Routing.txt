@@ -1,0 +1,60 @@
+STATIC Router Connection
+
+Cables : PC-Switch => Copper Straight through in Fast Ethernet
+	 Switch-Router => Copper Straight through in Gigabit Ethernet
+	 Router-Router => Serial DTE in Serial
+
+Router adding:
+	Add an external cover named -2T for using serial connection.
+	To add the cover click the router and physical tab, there in modules click -2T cover.
+	Before adding cover turn off the Router and add, the turn it back on.
+
+
+Connect the end devices to the switch:
+	Connect the end devices with switch by assigning Ip address for them.
+	All with same domain:
+	192.168.1.10	192.168.1.11	192.168.1.12	…
+
+Configure router for the switch:
+	Set the IP address for the switch network (i.e) Default gateway in Interface, Gigabit Ethernet Ip configuration.
+	Give the last no as .1
+	ex 192.168.1.1
+	Turn on the port.
+
+~Test the connection if the packet sends within the network
+
+Configure router for the router:
+	Set the IP address for the serial in Router, Interface, Static and give an IP address
+	It as 2 parts which is FROM and TO
+	TO IP from router 1 is given as FROM IP in router 2
+	i.e Router 1 has only configured with one serial which is 0 for outgoing.
+	    That address is given as serial 0 in Router 2, Same as that for all others.
+	    By the way, the last router too have only 1 serial port which is 0.
+	And turn on the port.
+
+Configure the routes in Router:
+	~In Router, Routing, Static set Ip address.
+	1. Set for next gateway from which path.
+		ex To 10.10.10.0 go by 11.0.0.3
+		ex To 172.16.1.0 go by 11.0.0.3
+		ex To 14.8.1.0 go by 11.0.0.3
+		
+		The way to access other gateway are same because of only one path is available which is 11.0.0.3 of serial 1. 
+		Next gateway should be end with .0 of the default gateway.
+
+	2. Set the redirect address for next route by giving the serial IP Address.
+		Given like To access the next networks, Go by this way.
+		ex To access next networks connected with 12.0.0.0 go by 11.0.0.3
+		Here 11.0.0.3 is the serial 1 of router 1.
+		12.0.0.0 is the next gateways all address. 
+		To specify the all other device, we give the address as .0
+
+DYNAMIC Router Connection
+
+All the steps are same till configuring router. 
+The part is giving IP address Dynamically...…
+So for that we have to give in RIP - Routing Information Protocol
+
+Given the address of the serial like 11.0.0.0 only .0 for specifying all devices.
+Given the address of next gateways like 10.10.10.0 only .0
+Give the address of the same gateway also.
